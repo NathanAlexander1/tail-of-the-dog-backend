@@ -4,9 +4,9 @@ const apiRoutes = require('./api');
 
 
 //home Route
-// router.get("/",(req,res)=>{
-//     res.send("Homepage")
-// })
+router.get("/",(req,res)=>{
+    res.send("Homepage")
+})
 
 //user routes
 router.use("/api",apiRoutes);
