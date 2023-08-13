@@ -3,6 +3,7 @@ const Dog = require('./Dog');
 const DogGuess = require('./DogGuess');
 const CocktailIngredient = require('./CocktailIngredient');
 const DogBreed = require('./DogBreed');
+const CocktailIngredientList = require('./CocktailIngredientList');
 
 User.hasMany(Dog);
 Dog.belongsTo(User);
@@ -21,5 +22,6 @@ module.exports = {
     Dog,
     DogGuess,
     CocktailIngredient,
-    DogBreed
+    DogBreed,
+    CocktailIngredientList
   };
