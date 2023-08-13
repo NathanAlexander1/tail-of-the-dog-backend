@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User, Dog, DogGuess, CocktailIngredient } = require("../../models");
+const { User, Dog, DogGuess, CocktailIngredient, DogBreed, CocktailIngredientList } = require("../../models");
 
 router.get("/", async (req, res) => {
   try {
@@ -105,9 +105,9 @@ router.put("/:id", (req, res) => {
       },
     }).then((foundUser) => {
       if (!foundUser) {
-        return res.status(401).json({ msg: "invalid login credentials" });
+        return res.status(401).json({ msg: "invalid login credentials1" });
       } else if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
-        return res.status(401).json({ msg: "invalid login credentials" });
+        return res.status(401).json({ msg: "invalid login credentials2" });
       } else {
         const token = jwt.sign(
           {
