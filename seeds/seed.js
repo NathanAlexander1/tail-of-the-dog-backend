@@ -2192,7 +2192,7 @@ const {
     },
     {
       name: "Schipperke",
-      image: "",
+      image: "https://www.akc.org/wp-content/uploads/2017/11/Schipperke-On-White-01.jpg",
     },
     {
       name: "Schweizer Laufhund",
