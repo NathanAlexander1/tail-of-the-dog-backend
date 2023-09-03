@@ -21,6 +21,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get all public dogs
+router.get("/public", async (req, res) => {
+  try {
+    const dogs = await Dog.findAll({
+      where: {
+        isPrivate: false,
+      },
+      include: [
+        User, 
+        { model: DogGuess, include: [User] }],
+    });
+    res.status(200).json(dogs);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "an error has occured", err });
+  }
+});
+
 //get one dog Upload
 router.get("/:id", async (req, res) => {
   try {
