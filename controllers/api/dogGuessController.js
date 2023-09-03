@@ -39,12 +39,13 @@ router.get("/:id", async (req, res) => {
 });
 
 //get dog guesses by user id about a specific uploaded dog
-router.get("/users/:id/", async (req, res) => {
+router.get("/users/:userId/", async (req, res) => {
   try {
     const dogGuess = await DogGuess.findAll({
       where: {
-        $UserId$: req.params.id,
+        "$User.id$": req.params.userId,
       },
+      include: [User, Dog, CocktailIngredient],
     });
     if (!dogGuess) {
       res.status(404).json({ message: "No dog guess found with that ID!" });
@@ -65,6 +66,7 @@ router.get("/users/:userid/dogs/:dogid/", async (req, res) => {
         "$DogGuess.UserId$": req.params.userid,
         "$DogGuess.DogId$": req.params.dogid,
       },
+      include: [User, Dog, CocktailIngredient],
     });
     if (!dogGuess) {
       res.status(404).json({ message: "No dog guess found with that ID!" });
