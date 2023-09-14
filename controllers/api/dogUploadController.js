@@ -2,7 +2,9 @@ const router = require("express").Router();
 const {
   User,
   Dog,
+  FullGuess,
   DogGuess,
+  FullCocktail,
   CocktailIngredient,
   DogBreed,
   CocktailIngredientList,
@@ -12,7 +14,7 @@ const {
 router.get("/", async (req, res) => {
   try {
     const dogs = await Dog.findAll({
-      include: [User, DogGuess],
+      include: [User,  { model: FullGuess, include: [DogGuess] }, DogGuess, { model: FullCocktail, include: [CocktailIngredient] }],
     });
     res.status(200).json(dogs);
   } catch (err) {
@@ -29,8 +31,8 @@ router.get("/public", async (req, res) => {
         isPrivate: false,
       },
       include: [
-        User, 
-        { model: DogGuess, include: [User] }],
+        User, { model: FullGuess, include: [DogGuess] },
+        { model: DogGuess, include: [User] }, { model: FullCocktail, include: [CocktailIngredient] }],
     });
     res.status(200).json(dogs);
   } catch (err) {
@@ -43,10 +45,32 @@ router.get("/public", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const dogUpload = await Dog.findByPk(req.params.id, {
-      include: [User, DogGuess],
+      include: [User,  { model: DogGuess, include: [User] }, { model: FullGuess, include: [DogGuess] }, { model: FullCocktail, include: [CocktailIngredient] }],
     });
     if (!dogUpload) {
       res.status(404).json({ message: "No uploaded dog found with that ID!" });
+      return;
+    }
+    res.status(200).json(dogUpload);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+//get uploaded dogs by user id
+router.get("/users/:userId/", async (req, res) => {
+  try {
+    const dogUpload = await Dog.findAll({
+      where: {
+        "$User.id$": req.params.userId,
+      },
+      include: [User, 
+        { model: DogGuess, include: [User] }, { model: FullGuess, include: [DogGuess] }, { model: FullCocktail, include: [CocktailIngredient] }
+      ],
+    });
+    if (!dogUpload) {
+      res.status(404).json({ message: "No dog guess found with that ID!" });
       return;
     }
     res.status(200).json(dogUpload);
