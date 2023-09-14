@@ -2,7 +2,9 @@ const router = require("express").Router();
 const {
   User,
   Dog,
+  FullGuess,
   DogGuess,
+  FullCocktail,
   CocktailIngredient,
   DogBreed,
   CocktailIngredientList,
@@ -21,7 +23,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//get dog guesses by id
+//get dog guesses by guess id
 router.get("/:id", async (req, res) => {
   try {
     const dogGuess = await DogGuess.findByPk(req.params.id, {
@@ -38,7 +40,27 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//get dog guesses by user id about a specific uploaded dog
+//get dog guesses by guessed dog id
+router.get("/dogs/:dogid", async (req, res) => {
+  try {
+    const dogGuess = await DogGuess.findAll({
+      where: {
+        "$DogGuess.DogId$": req.params.dogid,
+      },
+      include: [User, Dog, CocktailIngredient],
+    });
+    if (!dogGuess) {
+      res.status(404).json({ message: "No dog guess found with that ID!" });
+      return;
+    }
+    res.status(200).json(dogGuess);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+//get all Full guesses by user id
 router.get("/users/:userId/", async (req, res) => {
   try {
     const dogGuess = await DogGuess.findAll({

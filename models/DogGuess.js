@@ -15,6 +15,10 @@ DogGuess.init(
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        // ingredient: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: false
+        // }
         // dog_guess_for: {
         //     type: DataTypes.INTEGER,
         //     references: {

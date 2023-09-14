@@ -2,7 +2,9 @@ const sequelize = require("../config/connection");
 const {
     User,
     Dog,
+    FullGuess,
     DogGuess,
+    FullCocktail,
     CocktailIngredient,
     DogBreed,
     CocktailIngredientList
@@ -31,30 +33,70 @@ const {
     },
   ]
 
+  const fullGuessData = [
+    {
+      guesserName: "Jack Sparrow",
+      guesserLocation: "98027",
+      dogName: "Orlie",
+      DogId: 1,
+      UserId: 1
+    },
+    {
+      guesserName: "Jack Sparrow",
+      guesserLocation: "98027",
+      dogName: "Bailey",
+      DogId: 2,
+      UserId: 1
+    }
+  ]
+
   const dogGuessData = [
     {
         breed: "German Shephard",
         percentage: 47,
         DogId: 1,
-        UserId: 1
+        UserId: 1,
+        FullGuessId: 1
     },
     {
         breed: "Chihuahua",
         percentage: 13,
         DogId: 1,
-        UserId: 1
+        UserId: 1,
+        FullGuessId: 1
+
     },
     {
         breed: "American Cocker Spaniel",
         percentage: 40,
         DogId: 1,
-        UserId: 1
+        UserId: 1,
+        FullGuessId: 1
+
     },
     {
         breed: "Austrailian Shephard",
         percentage: 100,
         DogId: 2,
-        UserId: 1
+        UserId: 1,
+        FullGuessId: 2
+
+    }
+  ]
+
+
+  const fullCocktailData = [
+    {
+      cocktailOwner: "Jack Sparrow",
+      cocktailName: "Orlie-tini",
+      DogId: 1,
+      UserId: 1
+    },
+    {
+      cocktailOwner: "Jack Sparrow",
+      cocktailName: "Bailey-tini",
+      DogId: 2,
+      UserId: 1
     }
   ]
 
@@ -62,24 +104,31 @@ const {
     {
         ingredient_name: "Vodka",
         ingredient_percentage: 47,
-        DogGuessId: 1
+        DogGuessId: 1,
+        FullCocktailId: 1
     },
     {
         ingredient_name: "Orange Juice",
         ingredient_percentage: 13,
-        DogGuessId: 1
+        DogGuessId: 1,
+        FullCocktailId: 1
+
     },
     {
         ingredient_name: "Crankberry Juice",
         ingredient_percentage: 40,
-        DogGuessId: 1
+        DogGuessId: 1,
+        FullCocktailId: 1
+
     },
     {
         ingredient_name: "Whiskey",
         ingredient_percentage: 100,
-        DogGuessId: 2
+        DogGuessId: 2,
+        FullCocktailId: 1
     },
   ]
+
 
   const dogBreedsData = [
     {
@@ -3255,7 +3304,9 @@ const {
       returning: true,
     });
     const dogs = await Dog.bulkCreate(dogData);
+    const fullGuesses = await FullGuess.bulkCreate(fullGuessData);
     const dogGuesses = await DogGuess.bulkCreate(dogGuessData);
+    const fullCocktails = await FullCocktail.bulkCreate(fullCocktailData);
     const cocktailIngredients = await CocktailIngredient.bulkCreate(cocktailIngredientsData);
     const dogBreeds = await DogBreed.bulkCreate(dogBreedsData);
     const cocktailIngredientList = await CocktailIngredientList.bulkCreate(cocktailIngredientListData);
